@@ -10,23 +10,17 @@ FROM ubuntu:latest
 RUN \
   apt-get update && \
   apt-get -y upgrade && \
+  apt-get -y install mc wget apt-utils
+
+RUN \
+  apt-get update && \
+  apt-get install -y php php-mysql nginx-full curl && \
+  apt-get remove --purge -y $BUILD_PACKAGES && \
   apt-get clean autoclean && \
   apt-get autoremove && \
   rm -rf /var/lib/{apt,dpkg,cache,log}
 
 RUN \
-  apt-get update && \
-  apt-get -y install mc wget apt-utils && \
-  apt-get install -y --no-install-recommends apt-utils && \
-  apt-add-repository ppa:ondrej/php
-
-RUN \
-  apt-add-repository ppa:ondrej/php && \
-  apt-get update && \
-  apt-get install -y --no-install-recommends apt-utils && \
-  apt-get install -y php php-mysql nginx-full curl && \
-  apt-get remove --purge -y $BUILD_PACKAGES && \
-  rm -rf /var/lib/apt/lists/* && \
   echo "cgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini && \
   echo "access.log = /proc/self/fd/2" > /etc/php/7.0/fpm/php-fpm.log && \
   echo "error_log = /proc/self/fd/2" >> /etc/php/7.0/fpm/php-fpm.log
