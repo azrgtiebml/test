@@ -1,11 +1,38 @@
-FROM alpine:3.6
+FROM ubuntu:latest
 
-ENV DOKUWIKI_VERSION 2017-02-19b
-ENV MD5_CHECKSUM ea11e4046319710a2bc6fdf58b5cda86
+#ENV DOKUWIKI_VERSION 2017-02-19b
+ENV DOKUWIKI_VERSION 4f8e7d4306b067959271cb17b43f2949
+#ENV DOKUWIKI_CSUM ea11e4046319710a2bc6fdf58b5cda86
+ENV DOKUWIKI_CSUM 1062C8C4A23CF4986307984FFECE0F5C
 
-RUN apk --no-cache add \
-    php7 php7-openssl php7-zlib php7-mbstring php7-fpm php7-gd php7-session php7-xml nginx \
-    supervisor curl tar
+
+RUN \
+  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
+  apt-get update && \
+  apt-get -y install mc wget apt-utils && \
+  apt-get install -y --no-install-recommends apt-utils && \
+  apt-get -y upgrade && \
+  apt-get install -y build-essential && \
+  apt-get install -y software-properties-common && \
+  apt-get install -y curl htop man vim mc wget && \
+
+  apt-add-repository ppa:ondrej/php && \
+  apt-get -y install nginx && \
+  apt-get -y install php7 php7-openssl php7-zlib php7-mbstring php7-fpm php7-gd php7-session php7-xml && \
+  apt-get clean autoclean && \
+  apt-get autoremove && \
+  rm -rf /var/lib/{apt,dpkg,cache,log}
+
+
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-add-repository ppa:ondrej/php && \
+    apt-get update && \
+    apt-get -y install mc wget apt-utils \
+    php7 php7-openssl php7-zlib php7-mbstring php7-fpm php7-gd php7-session php7-xml nginx && \
+    apt-get -y upgrade && \
+    apt-get clean autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}
 
 RUN mkdir -p /run/nginx && \
     mkdir -p /var/www /var/dokuwiki-storage/data && \
@@ -29,7 +56,6 @@ RUN mkdir -p /run/nginx && \
     ln -s /var/dokuwiki-storage/conf /var/www/conf
 
 ADD nginx.conf /etc/nginx/nginx.conf
-ADD supervisord.conf /etc/supervisord.conf
 ADD start.sh /start.sh
 
 RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php7/php-fpm.ini && \
