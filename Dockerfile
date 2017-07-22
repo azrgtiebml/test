@@ -41,7 +41,7 @@ RUN echo "cgi.fix_pathinfo = 0;" >> /etc/php7/php-fpm.ini && \
     sed -i -e "s|;listen\.mode\s*=\s*|listen.mode = |g" /etc/php7/php-fpm.d/www.conf && \
     chmod +x /start.sh
 
-EXPOSE 80
+EXPOSE 8080
 VOLUME ["/var/dokuwiki-storage"]
 
 CMD /start.sh
