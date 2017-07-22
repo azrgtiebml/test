@@ -13,6 +13,7 @@ RUN \
   apt-get -y install mc wget apt-utils
 
 RUN \
+  export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get install -y php php-mysql nginx-full curl && \
   apt-get remove --purge -y $BUILD_PACKAGES && \
