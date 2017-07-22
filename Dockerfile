@@ -11,7 +11,14 @@ RUN \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get -y install mc wget apt-utils && \
-  apt-get install -y php nginx-full curl && \
+  apt-get remove --purge -y $BUILD_PACKAGES && \
+  apt-get clean autoclean && \
+  apt-get autoremove && \
+  rm -rf /var/lib/{apt,dpkg,cache,log}
+
+RUN \
+  apt-get install php7.0-curl php7.0-json php7.0-cgi php7.0 libapache2-mod-php7.0 && \
+  apt-get install php7.0-xml php7.0-mcrypt php7.0-gd
   apt-get remove --purge -y $BUILD_PACKAGES && \
   apt-get clean autoclean && \
   apt-get autoremove && \
