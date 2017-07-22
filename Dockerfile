@@ -10,7 +10,7 @@ RUN \
   export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get -y upgrade && \
-  apt-get -y install mc wget apt-utils && \
+  apt-get -y install mc wget apt-utils vim && \
   apt-get remove --purge -y $BUILD_PACKAGES && \
   apt-get clean autoclean && \
   apt-get autoremove && \
