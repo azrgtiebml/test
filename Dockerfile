@@ -26,17 +26,6 @@ RUN \
   apt-get autoremove && \
   rm -rf /var/lib/{apt,dpkg,cache,log}
 
-
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-add-repository ppa:ondrej/php && \
-    apt-get update && \
-    apt-get -y install mc wget apt-utils \
-    php7 php7-openssl php7-zlib php7-mbstring php7-fpm php7-gd php7-session php7-xml nginx && \
-    apt-get -y upgrade && \
-    apt-get clean autoclean && \
-    apt-get autoremove && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}
-
 RUN mkdir -p /run/nginx && \
     mkdir -p /var/www /var/dokuwiki-storage/data && \
     cd /var/www && \
