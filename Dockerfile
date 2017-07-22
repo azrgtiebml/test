@@ -12,11 +12,15 @@ RUN \
   apt-get -y install mc wget apt-utils && \
   apt-get install -y --no-install-recommends apt-utils && \
   apt-get -y upgrade && \
-  apt-get install -y build-essential && \
-  apt-get install -y software-properties-common && \
+
+RUN \
+  apt-add-repository ppa:ondrej/php && \
+  apt-get update && \
+#  apt-get install -y build-essential && \
+#  apt-get install -y software-properties-common && \
   apt-get install -y curl htop man vim mc wget && \
 
-  apt-add-repository ppa:ondrej/php && \
+RUN \
   apt-get -y install nginx && \
   apt-get -y install php7 php7-openssl php7-zlib php7-mbstring php7-fpm php7-gd php7-session php7-xml && \
   apt-get clean autoclean && \
