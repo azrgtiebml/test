@@ -9,7 +9,7 @@ ENV DOKUWIKI_CSUM 1062C8C4A23CF4986307984FFECE0F5C
 RUN \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
   apt-get update && \
-  apt-get -y install mc wget apt-utils && \
+  apt-get -y install apt-utils && \
   apt-get install -y --no-install-recommends apt-utils && \
   apt-get -y upgrade && \
 
